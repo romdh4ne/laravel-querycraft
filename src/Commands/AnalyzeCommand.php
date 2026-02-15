@@ -9,10 +9,13 @@ use Romdh4ne\QueryCraft\Analyzers\PerformanceScorer;
 class AnalyzeCommand extends Command
 {
     protected $signature = 'querycraft:analyze 
-                            {--url= : URL to analyze}
-                            {--method=GET : HTTP method}
-                            {--show-queries : Show all executed queries}
-                            {--user= : Authenticate as user ID}';
+                            {--url=           : URL to analyze}
+                            {--method=GET     : HTTP method}
+                            {--user=          : Authenticate as user ID}
+                            {--show-queries   : Show all executed queries}
+                            {--body=          : JSON body as a string}
+                            {--body-file=     : Path to a JSON file to use as body}
+                            {--header=*       : Custom headers (format: Key:Value)}';
 
     protected $description = 'Analyze database queries for performance issues';
 
@@ -40,27 +43,70 @@ class AnalyzeCommand extends Command
         $this->info('🔍 Analyzing: ' . $method . ' ' . $url);
         $this->newLine();
 
-        // Prepare options
         $options = [];
 
+        // ── Auth ──────────────────────────────────────────────────
         if ($userId = $this->option('user')) {
             $options['user_id'] = (int) $userId;
             $this->info("🔐 Authenticating as user ID: {$userId}");
             $this->newLine();
         }
 
-        // Use service to analyze
-        $result = $this->analysisService->analyze($url, $method, $options);
+        // ── Headers ───────────────────────────────────────────────
+        if ($headers = $this->option('header')) {
+            $parsed = [];
+            foreach ($headers as $header) {
+                [$key, $value] = explode(':', $header, 2);
+                $parsed[trim($key)] = trim($value);
+            }
+            $options['headers'] = $parsed;
+            $this->info('📋 Headers: ' . implode(', ', array_keys($parsed)));
+            $this->newLine();
+        }
 
-        // Handle errors
+        // ── Body from string ──────────────────────────────────────
+        if ($body = $this->option('body')) {
+            $decoded = json_decode($body, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                $this->error('❌ Invalid JSON body: ' . json_last_error_msg());
+                return 1;
+            }
+            $options['body'] = $body;
+            $this->info('📦 Body: ' . count($decoded) . ' field(s)');
+            $this->newLine();
+        }
+
+        // ── Body from file ────────────────────────────────────────
+        if ($bodyFile = $this->option('body-file')) {
+            if (!file_exists($bodyFile)) {
+                $this->error("❌ File not found: {$bodyFile}");
+                return 1;
+            }
+            $content = file_get_contents($bodyFile);
+            $decoded = json_decode($content, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                $this->error('❌ Invalid JSON in file: ' . json_last_error_msg());
+                return 1;
+            }
+            $options['body'] = $content;
+            $this->info('📂 Body from file: ' . $bodyFile . ' (' . count($decoded) . ' field(s))');
+            $this->newLine();
+        }
+
+        $result = $this->analysisService->analyze($url, $method, array_merge($options, [
+            'config' => [
+                'detectors' => config('querycraft.detectors'),
+                'thresholds' => config('querycraft.thresholds'),
+                'weights' => config('querycraft.weights'),
+            ],
+        ]));
+
         if (!$result['success']) {
             $this->handleError($result);
             return 1;
         }
 
-        // Display results
         $this->displayResults($result);
-
         return 0;
     }
 

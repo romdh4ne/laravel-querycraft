@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0f1a"/>
+      <stop offset="100%" style="stop-color:#1a0f2e"/>
+    </linearGradient>
+
+    <!-- Red accent gradient -->
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff416c"/>
+      <stop offset="100%" style="stop-color:#c0392b"/>
+    </linearGradient>
+
+    <!-- Cyan accent gradient -->
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d2ff"/>
+      <stop offset="100%" style="stop-color:#3a7bd5"/>
+    </linearGradient>
+
+    <!-- Glow filter for red -->
+    <filter id="redGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Glow filter for cyan -->
+    <filter id="cyanGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Soft shadow -->
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#ff416c" flood-opacity="0.3"/>
+    </filter>
+
+    <!-- Clip circle -->
+    <clipPath id="circleClip">
+      <circle cx="200" cy="200" r="180"/>
+    </clipPath>
+  </defs>
+
+  <!-- Outer glow ring -->
+  <circle cx="200" cy="200" r="195" fill="none" stroke="#ff416c" stroke-width="1" opacity="0.15"/>
+  <circle cx="200" cy="200" r="185" fill="none" stroke="#ff416c" stroke-width="0.5" opacity="0.1"/>
+
+  <!-- Background circle -->
+  <circle cx="200" cy="200" r="180" fill="url(#bgGrad)"/>
+
+  <!-- Inner border -->
+  <circle cx="200" cy="200" r="178" fill="none" stroke="#ff416c" stroke-width="1.5" opacity="0.3"/>
+
+  <!-- Grid lines (subtle) -->
+  <g clip-path="url(#circleClip)" opacity="0.06">
+    <line x1="20" y1="130" x2="380" y2="130" stroke="#ffffff" stroke-width="0.8"/>
+    <line x1="20" y1="200" x2="380" y2="200" stroke="#ffffff" stroke-width="0.8"/>
+    <line x1="20" y1="270" x2="380" y2="270" stroke="#ffffff" stroke-width="0.8"/>
+    <line x1="130" y1="20" x2="130" y2="380" stroke="#ffffff" stroke-width="0.8"/>
+    <line x1="200" y1="20" x2="200" y2="380" stroke="#ffffff" stroke-width="0.8"/>
+    <line x1="270" y1="20" x2="270" y2="380" stroke="#ffffff" stroke-width="0.8"/>
+  </g>
+
+  <!-- ── DATABASE STACK ── -->
+  <!-- Shadow beneath stack -->
+  <ellipse cx="160" cy="242" rx="52" ry="10" fill="#ff416c" opacity="0.08"/>
+
+  <!-- Bottom cylinder body -->
+  <rect x="110" y="210" width="100" height="28" fill="#1a1a3e" rx="2"/>
+  <!-- Bottom cylinder top face -->
+  <ellipse cx="160" cy="210" rx="50" ry="12" fill="#252550"/>
+  <ellipse cx="160" cy="210" rx="50" ry="12" fill="none" stroke="#ff416c" stroke-width="1.5" opacity="0.8"/>
+  <!-- Bottom cylinder bottom face -->
+  <ellipse cx="160" cy="238" rx="50" ry="12" fill="#1e1e42" stroke="#ff416c" stroke-width="1.2" opacity="0.6"/>
+  <!-- Data line -->
+  <line x1="125" y1="210" x2="148" y2="210" stroke="#ff416c" stroke-width="2" opacity="0.9" filter="url(#redGlow)"/>
+
+  <!-- Middle cylinder body -->
+  <rect x="110" y="178" width="100" height="28" fill="#1e1e42" rx="2"/>
+  <!-- Middle cylinder top face -->
+  <ellipse cx="160" cy="178" rx="50" ry="12" fill="#252550"/>
+  <ellipse cx="160" cy="178" rx="50" ry="12" fill="none" stroke="#ff416c" stroke-width="1.5" opacity="0.9"/>
+  <!-- Middle cylinder bottom face -->
+  <ellipse cx="160" cy="206" rx="50" ry="12" fill="#1e1e42" stroke="#ff416c" stroke-width="1" opacity="0.5"/>
+  <!-- Data line -->
+  <line x1="125" y1="178" x2="158" y2="178" stroke="#ff416c" stroke-width="2" opacity="0.9" filter="url(#redGlow)"/>
+
+  <!-- Top cylinder body -->
+  <rect x="110" y="146" width="100" height="28" fill="#22224a" rx="2"/>
+  <!-- Top cylinder top face -->
+  <ellipse cx="160" cy="146" rx="50" ry="12" fill="#2a2a55"/>
+  <ellipse cx="160" cy="146" rx="50" ry="12" fill="none" stroke="#ff416c" stroke-width="2" opacity="1"/>
+  <!-- Shine on top -->
+  <ellipse cx="160" cy="146" rx="28" ry="6" fill="none" stroke="#ff6b8a" stroke-width="0.8" opacity="0.4"/>
+  <!-- Data line -->
+  <line x1="125" y1="146" x2="152" y2="146" stroke="#ff416c" stroke-width="2.5" opacity="1" filter="url(#redGlow)"/>
+
+  <!-- ── MAGNIFYING GLASS ── -->
+  <!-- Glass background fill -->
+  <circle cx="255" cy="255" r="52" fill="#0d1117" opacity="0.9"/>
+  <!-- Glass ring -->
+  <circle cx="255" cy="255" r="52" fill="none" stroke="url(#redGrad)" stroke-width="5" filter="url(#redGlow)"/>
+  <!-- Inner glass ring -->
+  <circle cx="255" cy="255" r="44" fill="none" stroke="#ff416c" stroke-width="0.8" opacity="0.2"/>
+  <!-- Handle -->
+  <line x1="293" y1="293" x2="318" y2="318" stroke="url(#redGrad)" stroke-width="9" stroke-linecap="round" filter="url(#redGlow)"/>
+  <!-- Handle end cap -->
+  <circle cx="318" cy="318" r="5" fill="#c0392b"/>
+
+  <!-- ── LIGHTNING BOLT (inside glass) ── -->
+  <polygon
+    points="262,232 248,257 256,257 250,278 270,252 261,252 268,232"
+    fill="url(#redGrad)"
+    filter="url(#redGlow)"
+    opacity="0.95"
+  />
+
+  <!-- ── PULSE / ACTIVITY LINE ── -->
+  <!-- Left flat -->
+  <polyline
+    points="75,200 100,200 112,200 120,172 130,228 140,188 148,200 210,200"
+    fill="none"
+    stroke="url(#cyanGrad)"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    filter="url(#cyanGlow)"
+    opacity="0.7"
+  />
+
+  <!-- ── DECORATIVE PARTICLES ── -->
+  <circle cx="85" cy="140" r="3" fill="#ff416c" opacity="0.5" filter="url(#redGlow)"/>
+  <circle cx="95" cy="270" r="2" fill="#ff416c" opacity="0.4"/>
+  <circle cx="320" cy="155" r="2.5" fill="#ff416c" opacity="0.4" filter="url(#redGlow)"/>
+  <circle cx="330" cy="240" r="1.5" fill="#ff416c" opacity="0.3"/>
+  <circle cx="75" cy="310" r="2" fill="#00d2ff" opacity="0.4" filter="url(#cyanGlow)"/>
+  <circle cx="340" cy="175" r="1.5" fill="#00d2ff" opacity="0.3"/>
+  <circle cx="110" cy="310" r="1.5" fill="#ff416c" opacity="0.3"/>
+  <circle cx="305" cy="130" r="2" fill="#ff416c" opacity="0.35"/>
+
+  <!-- Corner accent dots -->
+  <circle cx="200" cy="40" r="2.5" fill="#ff416c" opacity="0.3"/>
+  <circle cx="200" cy="360" r="2.5" fill="#ff416c" opacity="0.3"/>
+</svg>

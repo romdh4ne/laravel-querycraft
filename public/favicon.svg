@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0f1a"/>
+      <stop offset="100%" style="stop-color:#1a0f2e"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff416c"/>
+      <stop offset="100%" style="stop-color:#c0392b"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d2ff"/>
+      <stop offset="100%" style="stop-color:#3a7bd5"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="32" cy="32" r="31" fill="url(#bg)"/>
+  <circle cx="32" cy="32" r="30" fill="none" stroke="#ff416c" stroke-width="1" opacity="0.4"/>
+
+  <!-- Bottom cylinder -->
+  <rect x="8" y="37" width="30" height="9" fill="#1a1a3e"/>
+  <ellipse cx="23" cy="37" rx="15" ry="4" fill="#252550" stroke="#ff416c" stroke-width="1" opacity="0.9"/>
+  <ellipse cx="23" cy="46" rx="15" ry="4" fill="#1a1a3e" stroke="#ff416c" stroke-width="0.6" opacity="0.5"/>
+  <line x1="12" y1="37" x2="18" y2="37" stroke="#ff416c" stroke-width="1.5" filter="url(#glow)"/>
+
+  <!-- Middle cylinder -->
+  <rect x="8" y="27" width="30" height="9" fill="#1e1e42"/>
+  <ellipse cx="23" cy="27" rx="15" ry="4" fill="#252550" stroke="#ff416c" stroke-width="1"/>
+  <ellipse cx="23" cy="36" rx="15" ry="4" fill="#1e1e42" stroke="#ff416c" stroke-width="0.6" opacity="0.4"/>
+  <line x1="12" y1="27" x2="20" y2="27" stroke="#ff416c" stroke-width="1.5" filter="url(#glow)"/>
+
+  <!-- Top cylinder -->
+  <rect x="8" y="17" width="30" height="9" fill="#22224a"/>
+  <ellipse cx="23" cy="17" rx="15" ry="4" fill="#2a2a55" stroke="#ff416c" stroke-width="1.5"/>
+  <ellipse cx="23" cy="26" rx="15" ry="4" fill="#22224a" stroke="#ff416c" stroke-width="0.6" opacity="0.3"/>
+  <line x1="12" y1="17" x2="17" y2="17" stroke="#ff416c" stroke-width="2" filter="url(#glow)"/>
+
+  <!-- Magnifying glass -->
+  <circle cx="46" cy="46" r="13" fill="#0d1117" opacity="0.95"/>
+  <circle cx="46" cy="46" r="13" fill="none" stroke="url(#red)" stroke-width="2.5" filter="url(#glow)"/>
+  <line x1="55" y1="55" x2="61" y2="61" stroke="url(#red)" stroke-width="3.5" stroke-linecap="round" filter="url(#glow)"/>
+
+  <!-- Lightning bolt inside glass -->
+  <polygon points="49,38 43,47 47,47 44,54 52,44 48,44 51,38"
+           fill="url(#red)" filter="url(#glow)" opacity="0.95"/>
+
+  <!-- Pulse line -->
+  <polyline points="4,32 9,32 12,26 15,38 18,30 20,32 28,32"
+            fill="none" stroke="url(#cyan)" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round"
+            opacity="0.6"/>
+</svg>

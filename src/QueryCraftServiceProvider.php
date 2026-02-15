@@ -28,10 +28,11 @@ class QueryCraftServiceProvider extends ServiceProvider
         // Views
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'querycraft');
 
-        // Publish assets
+
+
+        // Publish public assets (like icons)
         $this->publishes([
-            __DIR__ . '/../resources/css' => public_path('vendor/querycraft/css'),
-            __DIR__ . '/../resources/js' => public_path('vendor/querycraft/js'),
+            __DIR__ . '/../public' => public_path('vendor/querycraft'),
         ], 'querycraft-assets');
     }
 

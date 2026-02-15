@@ -202,7 +202,8 @@
                 </h3>
 
                 <div class="space-y-4 max-h-[700px] overflow-y-auto pr-1">
-                    <template x-for="(issue, index) in results.issues" :key="index">
+                    <template x-for="(issue, index) in (results?.issues ?? [])" :key="index">
+
                         <div class="rounded-xl overflow-hidden shadow-sm"
                              :class="severityHelpers.getWrapperClass(issue.severity)">
 
@@ -347,7 +348,8 @@
                     </svg>
                 </button>
                 <div x-show="showQueries" class="space-y-1.5 max-h-72 overflow-y-auto mt-2">
-                    <template x-for="(query, index) in results.queries" :key="index">
+                    <template x-for="(query, index) in (results?.queries ?? [])" :key="index">
+
                         <div class="flex items-start gap-3 px-3 py-2.5 bg-gray-50 dark:bg-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                             <span class="text-xs font-bold text-gray-300 dark:text-gray-600 mt-0.5 w-4 flex-shrink-0 text-right"
                                   x-text="index + 1"></span>

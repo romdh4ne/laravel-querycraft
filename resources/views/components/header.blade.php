@@ -4,15 +4,10 @@
 
             {{-- Logo --}}
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2v-4M9 21H5a2 2 0 01-2-2v-4m0 0h18"/>
-                    </svg>
-                </div>
-                <div>
-                    <span class="font-bold text-gray-900 dark:text-white">QueryCraft</span>
-                    <span class="ml-2 text-xs text-gray-400 dark:text-gray-500 hidden sm:inline">Performance Analyzer</span>
+                <div class="flex items-center">
+                    <img src="{{ asset('vendor/querycraft/logo-horizontal.svg') }}"
+                         alt="QueryCraft"
+                         class="h-12 w-auto">
                 </div>
             </div>
 
