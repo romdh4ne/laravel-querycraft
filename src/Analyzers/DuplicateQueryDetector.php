@@ -57,12 +57,63 @@ class DuplicateQueryDetector
                     'count' => count($executions),
                     'total_time' => round($totalTime, 2),
                     'location' => $this->findSourceLocation($executions[0]['query']['backtrace'] ?? []),
-                    'suggestion' => "Cache this query result - executed " . count($executions) . " times with identical parameters",
+                    'suggestion' => $this->generateSuggestion(
+                        $executions[0]['query']['sql'],
+                        count($executions)
+                    ),
                 ];
             }
         }
 
         return $issues;
+    }
+
+    protected function generateSuggestion(string $sql, int $count): string
+    {
+        $sql = strtolower($sql);
+
+        // Settings / config tables — almost never change
+        if (preg_match('/from\s+`?(settings|configurations?|configs?|options?)`?/i', $sql)) {
+            return "This looks like a settings query. Cache it permanently:\n"
+                . "Cache::rememberForever('settings', fn() => Setting::all())";
+        }
+
+        // Lookup / reference tables (roles, permissions, categories)
+        if (preg_match('/from\s+`?(roles?|permissions?|categories|types?|statuses?)`?/i', $sql)) {
+            return "Reference data rarely changes. Cache it for a long time:\n"
+                . "Cache::remember('key', now()->addDay(), fn() => ...)";
+        }
+
+        // Auth / user queries — fired on every middleware check
+        if (preg_match('/from\s+`?users?`?\s+where.*id\s*=/i', $sql)) {
+            return "This looks like an auth query fired by middleware.\n"
+                . "Laravel caches the authenticated user per request automatically via Auth::user().\n"
+                . "Make sure you're not calling User::find(\$id) manually in multiple places.";
+        }
+
+        // COUNT queries — expensive on large tables
+        if (str_contains($sql, 'count(')) {
+            return "COUNT queries are expensive. Cache the result:\n"
+                . "Cache::remember('count_key', 60, fn() => Model::count())";
+        }
+
+        // Queries with no WHERE — full table reads
+        if (!str_contains($sql, 'where')) {
+            return "This query reads the full table every time.\n"
+                . "Cache it: Cache::remember('key', 300, fn() => Model::all())\n"
+                . "Or check if you can scope it with a WHERE clause.";
+        }
+
+        // Queries with WHERE on a specific ID — single record lookup
+        if (preg_match('/where.*`?id`?\s*=\s*\?/i', $sql)) {
+            return "Same record is being loaded multiple times.\n"
+                . "Use find() once and pass the model around instead of re-querying.\n"
+                . "Or use Laravel's remember() pattern for expensive lookups.";
+        }
+
+        // Default
+        return "This query runs {$count}x with identical parameters. Cache it:\n"
+            . "Cache::remember('unique_key', 300, fn() => ...)";
     }
 
     protected function findSourceLocation(array $backtrace): array
