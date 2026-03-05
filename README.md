@@ -79,6 +79,10 @@ http://your-app.test/querycraft
 ```
 http://your-app.test/querycraft
 ```
+<p align="center">
+  <img src="public/dashboard.png" width="380" alt="QueryCraft Dashboard"/>
+</p>
+
 
 Or with a custom route prefix set in `.env`:
 
